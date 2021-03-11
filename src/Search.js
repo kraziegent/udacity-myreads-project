@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
-import Shelve from './Shelve';
+import Shelf from './Shelf';
+import propTypes from 'prop-types';
 
 class Search extends Component{
+
+    static propTypes = {
+        myBooks: propTypes.array.isRequired,
+        onChangeShelf: propTypes.func.isRequired
+    }
 
     state = {
         books: [],
@@ -12,7 +18,20 @@ class Search extends Component{
     }
 
     componentDidMount() {
-        BooksAPI.search("React",20)
+        this.searchBooks();
+    }
+
+    onChangeQuery = query => {
+        this.setState(() => ({
+            query: query,
+        }))
+
+        this.searchBooks();
+    }
+
+    searchBooks = () => {
+        let query = this.state.query === '' ? "React" : this.state.query;
+        BooksAPI.search(query,20)
         .then((books) => {
             this.setState(() => ({
             books: books,
@@ -20,13 +39,11 @@ class Search extends Component{
         })
     }
 
-    filterBooks = e => {
+    addShelf = book => {
 
     }
 
     render() {
-        const { query } = this.state;
-        const books = query === '' ? this.state.books : this.state.filteredBooks;
         console.log('book state:', this.state.books)
 
         return (
@@ -45,13 +62,13 @@ class Search extends Component{
                         <input
                             type="text" 
                             placeholder="Search by title or author" 
-                            value={query}
-                            onChange={(event) => this.filterBooks(event.target.value)} 
+                            value={this.state.query}
+                            onChange={(event) => this.onChangeQuery(event.target.value)} 
                         />
                     </div>
                 </div>
                 <div className="search-books-results">
-                    <Shelve books={books}/>
+                    <Shelf books={this.state.books} onChangeShelf={this.props.onChangeShelf} />
                 </div>
             </div>
         );
