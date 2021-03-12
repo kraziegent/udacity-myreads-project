@@ -5,7 +5,10 @@ import propTypes from 'prop-types'
 function Shelf(props) {
     return (
         <ol className="books-grid">
-            { props.books.map((book) => (<li key={book.id}><Book book={book}/></li>)) }
+            {
+                props.books &&
+                props.books.map((book) => (<li key={book.id}><Book book={book} onChangeShelf={props.onChangeShelf} /></li>)) 
+            }
         </ol>
     );
 }
@@ -17,4 +20,4 @@ Shelf.propTypes = {
 export default Shelf
 
 //Should receive an array of book objects to render and will need a book component to build each book. (Treats the search page as one big shelf.)
-//Also receives the onChangeShelve function to pass to the Book Component
+//Also receives the onChangeShelf function to pass to the Book Component

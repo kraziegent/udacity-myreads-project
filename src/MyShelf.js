@@ -34,4 +34,4 @@ MyShelf.propTypes = {
 
 export default MyShelf
 
-//Should receive books and the onChangeShelve function, then it loops over all categories calling the Shelve component per category books.
+//Should receive books and the onChangeShelf function, then it loops over all categories calling the Shelf component per category books.

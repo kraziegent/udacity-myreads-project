@@ -5,15 +5,15 @@ class Book extends Component {
 
     static propTypes = {
         book: propTypes.object.isRequired,
-        // onChangeShelf: propTypes.func.isRequired,
+        onChangeShelf: propTypes.func.isRequired,
     }
 
-    handleChange = e => {
-        this.props.onChangeShelf(e)
+    handleChange = event => {
+        this.props.onChangeShelf({'id': this.props.book.id, 'shelf': event.target.value})
     }
 
     render() {
-        const { readingModes, imageLinks, authors, title } = this.props.book;
+        const { readingModes, imageLinks, authors, title, shelf } = this.props.book;
         const thumbnail = readingModes.image ? imageLinks.thumbnail : ''; //look for a default image to use.
 
         return (
@@ -21,9 +21,9 @@ class Book extends Component {
                 <div className="book-top">
                     <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${thumbnail}")` }}></div>
                     <div className="book-shelf-changer">
-                        <select onChange={this.handleChange}>
+                        <select onChange={this.handleChange} defaultValue={ !shelf ? 'none' : shelf } >
                             <option value="move" disabled>Move to...</option>
-                            <option value="currentlyReading">Currently Reading</option>
+                            <option value="currentlyReading" >Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
                             <option value="read">Read</option>
                             <option value="none">None</option>

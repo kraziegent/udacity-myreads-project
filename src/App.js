@@ -12,16 +12,23 @@ class BooksApp extends React.Component {
   }
 
   componentDidMount() {
+    this.loadMyBooks()
+  }
+
+  handleShelfChange = event => {
+    BooksAPI.update({'id':event.id}, event.shelf)
+    .then((response) => {
+      this.loadMyBooks(); //TODO:: should probably find a way to load only the newly updated book and then add that to my books state.
+    })
+  }
+
+  loadMyBooks = () => {
     BooksAPI.getAll()
     .then((books) => {
         this.setState(() => ({
         books: books,
         }))
     })
-  }
-
-  handleShelfChange = event => {
-    console.log(event)
   }
 
   booksId = () => {
@@ -31,8 +38,6 @@ class BooksApp extends React.Component {
   }
 
   render() {
-    console.log(this.state.books)
-    console.log('ids', this.booksId())
     return (
       <div className="app">
         <Route path="/search" render={() => (

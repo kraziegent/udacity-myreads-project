@@ -17,35 +17,51 @@ class Search extends Component{
         filteredBooks: [],
     }
 
-    componentDidMount() {
-        this.searchBooks();
-    }
+    // componentDidMount() {
+    //     this.searchBooks();
+    // }
 
     onChangeQuery = query => {
         this.setState(() => ({
             query: query,
         }))
 
-        this.searchBooks();
+        //this.state.query === '' ? [] : this.searchBooks(this.state.query);
+        if(this.state.query === '') {
+            this.setState(() => ({
+                books: [],
+            }));
+        }else{
+            this.searchBooks(this.state.query);
+        }
     }
 
-    searchBooks = () => {
-        let query = this.state.query === '' ? "React" : this.state.query;
+    searchBooks = (query) => {
         BooksAPI.search(query,20)
-        .then((books) => {
+        .then((response) => {
+            let books = [];
+            if(Array.isArray(response)) {
+                books = response
+            }
             this.setState(() => ({
-            books: books,
-            }))
+                books: this.addShelf(books),
+            }));
+        })
+        .catch((error) => {
+            console.log('error ', error)
         })
     }
 
-    addShelf = book => {
-
+    addShelf = books => {
+        // return books
+        return  books.map((book) => {
+            let shelf = this.props.myBooks.find((onShelf) => onShelf.id === book.id)
+            if(shelf) book.shelf = shelf.shelf;
+            return book;
+        })
     }
 
     render() {
-        console.log('book state:', this.state.books)
-
         return (
             <div className="search-books">
                 <div className="search-books-bar">
@@ -77,4 +93,4 @@ class Search extends Component{
 
 export default Search
 
-//Should receive books currently in my shelve so that they can be properly labelled as well in the search shelve, also should get books from the API
+//Should receive books currently in my shelve so that they can be properly labelled as well in the search shelf, also should get books from the API
