@@ -2,6 +2,11 @@ import React from 'react';
 import Shelf from './Shelf';
 import propTypes from 'prop-types';
 
+/**
+ * 
+ * @param {*} props books - contains all books to be rendered, onChangeShelf - is a function passed to the Shelf component.
+ * @returns rendered shelfs of books, with each book in their correct shelf.
+ */
 function MyShelf(props) {
     return (
         <div>

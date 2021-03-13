@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 
+/**
+ * This component renders a single book using properties like thumbnail, title and author(s), it also set's the books shelf by calling the parent function 
+ * passed as a prop onChangeShelf.
+ * 
+ */
 class Book extends Component {
 
     static propTypes = {
@@ -9,12 +14,12 @@ class Book extends Component {
     }
 
     handleChange = event => {
-        this.props.onChangeShelf({'id': this.props.book.id, 'shelf': event.target.value})
+        this.props.onChangeShelf({id: this.props.book.id, shelf: event.target.value});
     }
 
     render() {
         const { readingModes, imageLinks, authors, title, shelf } = this.props.book;
-        const thumbnail = readingModes.image ? imageLinks.thumbnail : ''; //look for a default image to use.
+        const thumbnail = readingModes.image && imageLinks ? imageLinks.thumbnail : ''; //TODO: look for a default image to use.
 
         return (
             <div className="book">

@@ -1,7 +1,12 @@
 import React from 'react';
 import Book from './Book';
-import propTypes from 'prop-types'
+import propTypes from 'prop-types';
 
+/**
+ * 
+ * @param {*} props books - that will be rendered on a specific shelf, can be the search shelf or one of my book shelfs.
+ * @returns a rendered shelf with books in it.
+ */
 function Shelf(props) {
     return (
         <ol className="books-grid">
@@ -15,6 +20,7 @@ function Shelf(props) {
 
 Shelf.propTypes = {
     books: propTypes.array.isRequired,
+    onChangeShelf: propTypes.func.isRequired,
 };
 
 export default Shelf

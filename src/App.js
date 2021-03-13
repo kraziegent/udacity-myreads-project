@@ -8,17 +8,17 @@ import Search from './Search';
 class BooksApp extends React.Component {
 
   state = {
-    books: []
+    books: [],
   }
 
   componentDidMount() {
-    this.loadMyBooks()
+    this.loadMyBooks();
   }
 
-  handleShelfChange = event => {
-    BooksAPI.update({'id':event.id}, event.shelf)
+  handleShelfChange = change => {
+    BooksAPI.update({id: change.id}, change.shelf)
     .then((response) => {
-      this.loadMyBooks(); //TODO:: should probably find a way to load only the newly updated book and then add that to my books state.
+      this.loadMyBooks(); //TODO: Load only the newly updated book and then add that to my books state.
     })
   }
 
@@ -27,13 +27,13 @@ class BooksApp extends React.Component {
     .then((books) => {
         this.setState(() => ({
         books: books,
-        }))
-    })
+        }));
+    });
   }
 
   booksId = () => {
     return this.state.books.map((book) => (
-      {"id": book.id, "shelf": book.shelf}
+      {id: book.id, shelf: book.shelf}
     ))
   }
 
@@ -58,7 +58,7 @@ class BooksApp extends React.Component {
           </div>
         )} />
       </div>
-    )
+    );
   }
 }
 
